@@ -69,6 +69,24 @@
               <label for="password">Password <strong class="required">*</strong></label>
               <input type="password" name="password" class="form-control" id="password" placeholder="Password" required>
             </div>
+            <div class="form-group">
+              <label for="active_from">Active From </label>
+              <div class="input-group date" id="active_from" data-target-input="nearest">
+                  <input type="text" name="active_from" class="form-control datetimepicker-input" data-target="#active_from" placeholder="Active From (Date)" />
+                  <div class="input-group-append" data-target="#active_from" data-toggle="datetimepicker">
+                      <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                  </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="active_to">Active To </label>
+              <div class="input-group date" id="active_to" data-target-input="nearest">
+                  <input type="text" name="active_to" class="form-control datetimepicker-input" data-target="#active_to" placeholder="Active To (Date)" />
+                  <div class="input-group-append" data-target="#active_to" data-toggle="datetimepicker">
+                      <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                  </div>
+              </div>
+            </div>
           </div>
           <!-- /.card-body -->
           <div class="card-footer">
@@ -83,4 +101,12 @@
   </div><!-- /.container-fluid -->
 </section>
 <!-- /.content -->
+
+@push('script')
+  <script>
+    $('#active_from,#active_to').datetimepicker({
+        format: 'YYYY-MM-DD'
+    });
+  </script>
+@endpush
 @endsection

@@ -67,6 +67,14 @@
                 <label for="contact_number">Contact Number <strong class="required">*</strong></label>
                 <input type="text" name="contact_number" class="form-control" value="{{$user->phone}}" id="contact_number" placeholder="Contact Number" readonly>
               </div>
+              <div class="form-group">
+                <label for="active_from">Active From </label>
+                <input type="text" name="active_from" class="form-control" value="{{$user->active_from}}" id="active_from" placeholder="Active From (Date)" readonly>
+              </div>
+              <div class="form-group">
+                <label for="active_to">Active To </label>
+                <input type="text" name="active_to" class="form-control" value="{{$user->active_to}}" id="active_to" placeholder="Active To (Date)" readonly>
+              </div>
             </div>
             <!-- /.card-body -->
           </form>

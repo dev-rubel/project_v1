@@ -88,6 +88,8 @@ class UserController extends Controller
             $user->image = $image_name;
             $user->is_deleted = 0;
             $user->user_type = $data['user_type'];
+            $user->active_from = $data['active_from'];
+            $user->active_to = $data['active_to'];
             $user->save();
             // redirect user list
             return redirect('user')->with('message','success|Data Insert successfully');
@@ -176,6 +178,8 @@ class UserController extends Controller
             $user->phone = $data['contact_number'];
             $user->image = $image_name;
             $user->user_type = $data['user_type'];
+            $user->active_from = $data['active_from'];
+            $user->active_to = $data['active_to'];
             $user->save();
             // redirect user list
             return redirect('user')->with('message','success|Data Update successfully');
