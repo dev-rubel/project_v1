@@ -33,69 +33,103 @@
                 </div>
             </div>
             <div class="card-body" id="DivIdToPrint">
-                <div class="row mb-4">
-                    <div class="col-sm-12">
-                        <h6 class="mb-3">Order Information:</h6>
-                        <div><strong>Id:</strong> {{$order->id}}</div>
-                        <div><strong>Date:</strong> {{$order->dt_created}}</div>
-                        <div><strong>Previous Print:</strong> {{$order->print_flag==0?'No':'Yes'}}</div>
-                    </div>
+                <div class="row">
+                  <div class="col-sm-12 text-center">
+                    @php
+                      $file_path = public_path().'/images/hb.png';
+                      if(!is_file($file_path)){
+                          $file_path = URL::to('/').'/images/default.png';
+                      } else {                        
+                        $file_path = URL::to('/').'/images/hb.png';
+                      }
+                    @endphp
+                    <img src="{{$file_path}}" alt="" width="60px" height="40px" class="mb-2">
+                    <h2 class="ml-3" style="display: inline-block;">福 美 贸 易 公 司</h2>
+                    <h2>HOCK BEE TRADING</h2>
+                    <h5>No 28 & 29, LORONG HARUAN 5/1, OAKLAND COMMERCIAL SQUARE, 70300 SEREMBAN. N.S.D.K.</h3>
+                    <h6>TEL : 606 - 601 7540,  FAX : 606 - 601 0450</h4>
+                    <h6>(GST Reg No : 000249987072)</h4>
+                  </div>
                 </div>
-                <div class="table-responsive-sm">
-                  <div class="col-lg-12 col-sm-12">
-                    <table class="table table-striped">
-                        <thead>
-                            <tr>
-                                <th class="center">#</th>
-                                <th>Item</th>
-                                <th>Description</th>
-                                <th class="right text-right">UNIT</th>
-                                <th class="right text-right">COST</th>
-                                <th class="right text-right">Total</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                          @foreach($order->orderDetails as $orderDetail)
-                            <tr>
-                                <td class="center">{{$orderDetail->product_id}}</td>
-                                <td class="left">{{$orderDetail->product_name}}</td>
-                                <td class="left"></td>
-                                <td class="right text-right">{{$orderDetail->product_unit_amount}}</td>
-                                <td class="right text-right">{{$orderDetail->product_unit_price}}</td>
-                                <td class="right text-right">{{$orderDetail->product_unit_amount*$orderDetail->product_unit_price}}</td>
-                            </tr>
-                          @endforeach
-                        </tbody>
-                    </table>
+                <hr>
+                <div class="row">
+                  <div class="col-sm-6 text-left">
+                    <p for="">MS:</p>
+                    <hr class="pb-3">
+                    <hr>
+                    <p for="">A/C NO : 2010 - </p>
+                    <hr class="pb-3">
+                    <p for="">GST No :  </p>
+                  </div>
+                  <div class="col-sm-6">
+                    <p>TAX INV NO:</p>
+                    <p>DATE:</p>
+                    <p class="pb-4">SALEMAN:</p>
+                    <hr class="pb-3">
+                    <p class="text-right">ctn</p>
+                    <hr>
+                    <p>SSM No :</p>
                   </div>
                 </div>
                 <div class="row">
-                  <div class="col-lg-4 col-sm-5 mx-auto">
-                    <table class="table table-clear">
-                        <tbody>
-                            <tr>
-                                <td class="left"><strong>Subtotal</strong></td>
-                                <td class="right text-right">{{$order->total_price}}</td>
-                            </tr>
-                            @php
-                              $discount = 0;
-                            @endphp
-                            @if($order->discounted_percentage)
-                              @php
-                                $discount = ($order->discounted_percentage / 100) * $order->total_price;
-                              @endphp
+                  <div class="col-sm-12">
+                    <div class="table-responsive-sm">
+                      <div class="col-lg-12 col-sm-12">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th class="center">NO</th>
+                                    <th>Item Name</th>
+                                    <th>PARTICULAR</th>
+                                    <th class="right text-right">Quantity</th>
+                                    <th class="right text-right">U.Price</th>
+                                    <th class="right text-right">Amount</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                              @foreach($order->orderDetails as $orderDetail)
+                                <tr>
+                                    <td class="center">{{$orderDetail->product_id}}</td>
+                                    <td class="left">{{$orderDetail->product_name}}</td>
+                                    <td class="left"></td>
+                                    <td class="right text-right">{{$orderDetail->product_unit_amount}}</td>
+                                    <td class="right text-right">{{$orderDetail->product_unit_price}}</td>
+                                    <td class="right text-right">{{$orderDetail->product_unit_amount*$orderDetail->product_unit_price}}</td>
+                                </tr>
+                              @endforeach
                               <tr>
-                                  <td class="left"><strong>Discount ({{$order->discounted_percentage
-                                  }}%)</strong></td>
-                                  <td class="right text-right">{{$discount}}</td>
+                                <td colspan="5" class="text-right text-bold">Total</td>
+                                <td class="text-right">{{$order->total_price}}</td>
                               </tr>
-                            @endif
-                            <tr>
-                                <td class="left"><strong>Total</strong></td>
-                                <td class="right text-right"><strong>{{$order->total_price-$discount}}</strong></td>
-                            </tr>
-                        </tbody>
-                    </table>
+                            </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <br>
+                <br>
+                <div class="row">
+                  <div class="col-sm-4 text-center">
+                    <hr>
+                    <p>Prepared By</p>     
+                  </div>
+                  <div class="col-sm-4 text-center">
+                    <hr>
+                    <p>Check By</p>
+                  </div>
+                  <div class="col-sm-4 text-center">
+                    <hr>
+                    <p>Customer Chop & Sign</p>
+                  </div>
+                </div>
+                <br>
+                <div class="row">
+                  <div class="col-sm-12">
+                    <p class="text-bold">Remarks</p>
+                    <hr class="pb-3">
+                    <hr class="pb-3">
+                    <hr class="pb-3">
                   </div>
                 </div>
             </div>
