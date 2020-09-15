@@ -16,5 +16,6 @@ Route::resource('customer', 'CustomerController');
 /* Order Resource */
 Route::resource('order', 'OrderController');
 Route::post('order/printStatus', 'OrderController@printStatus')->name('order.printStatus');
+Route::get('order/printPage/{id}', 'OrderController@printPage')->name('order.printPage');
 /* Setting Resource */
 Route::resource('setting', 'SettingController');

@@ -114,4 +114,14 @@ class OrderController extends Controller
         }
         return $order;
     }
+
+    public function printPage($order_id)
+    {
+        try {            
+            $order = Order::find($order_id);
+            return view('order.printView',compact('order'));
+        } catch(\Exception $e) {
+            return $e->getMessage();
+        }
+    }
 }
