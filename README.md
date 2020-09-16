@@ -11,7 +11,6 @@ Our sales staff places order on behalf of customer in the mobile app.
 4. `Config DB info in .env`
 5. `php artisan key:generate`
 6. `Upload given .sql file`
-7. `Replace file modified/AuthenticatesUsers.php to project_v1\vendor\laravel\ui\auth-backend AuthenticatesUsers.php`
 8. `php artisan serve`
 
 ## Initial Login Info
