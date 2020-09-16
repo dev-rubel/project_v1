@@ -31,7 +31,7 @@
                   <i class="nav-icon fas fa-user"></i>
                   <p>
                      Users
-                     <i class="right fas fa-angle-left"></i>
+                     <i class="right fas fa-angle-right"></i>
                   </p>
                </a>
                <ul class="nav nav-treeview">
@@ -54,7 +54,7 @@
                   <i class="nav-icon fas fa-address-book"></i>
                   <p>
                      Customers
-                     <i class="right fas fa-angle-left"></i>
+                     <i class="right fas fa-angle-right"></i>
                   </p>
                </a>
                <ul class="nav nav-treeview">
@@ -77,7 +77,7 @@
                   <i class="nav-icon fas fa-archive"></i>
                   <p>
                      Orders
-                     <i class="right fas fa-angle-left"></i>
+                     <i class="right fas fa-angle-right"></i>
                   </p>
                </a>
                <ul class="nav nav-treeview">
@@ -94,7 +94,7 @@
                   <i class="nav-icon fas fa-cogs"></i>
                   <p>
                      Settings
-                     <i class="right fas fa-angle-left"></i>
+                     <i class="right fas fa-angle-right"></i>
                   </p>
                </a>
                <ul class="nav nav-treeview">

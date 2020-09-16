@@ -54,9 +54,9 @@
                     @php
                       $file_path = public_path().'/images/user/'.$user->image;
                       if(!is_file($file_path)){
-                          $file_path = asset('/images/default.png');
-                      } else {                        
-                          $file_path = asset('/images/user/'.$user->image);
+                          $file_path = URL::to('/').'/images/default.png';
+                      } else {
+                          $file_path = URL::to('/').'/images/user/'.$user->image;
                       }
                     @endphp
                     <img src="{{$file_path}}" alt="" class="img-responsive" width="100px" height="100px">

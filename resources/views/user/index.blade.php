@@ -91,7 +91,7 @@
   // delete user
   $('.destroy').on('click', function() {
     var userid = $(this).data('id');
-    var r = confirm("Are You Sure!");
+    var r = confirm("Are you sure to delete this user?");
     if (r == true) {
       document.getElementById('destroy-form-'+userid).submit();
     }

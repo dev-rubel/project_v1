@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Customer;
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class CustomerController extends Controller
 {
@@ -37,9 +38,6 @@ class CustomerController extends Controller
     public function create()
     {
         try {
-            if(auth()->user()->user_type=='staff')
-                return back()->with('message','warning|You are not allowed for this action!!'); 
-
             $user_list = User::where('is_deleted',0)->get();
             return view('customer.create', compact('user_list'));
         } catch(\Exception $e) {
@@ -56,16 +54,17 @@ class CustomerController extends Controller
     public function store(Request $request)
     {
         try {
-            if(auth()->user()->user_type=='staff')
-                return back()->with('message','warning|You are not allowed for this action!!'); 
-
             $data = $request->except('_token');
-            $this->validate($request, [
+            $validator = Validator::make($request->all(), [
                 'customer_name' => 'required',
+                'address_line1' => 'required',
                 'address_state' => 'required',
                 'address_post_code' => 'required',
                 'contact_number' => 'required'
             ]);
+            if ($validator->fails()) {
+                return redirect('customer/create')->withErrors($validator);
+            }
             // save image
             $image_name = '';
             if ($request->hasFile('image')) {
@@ -78,6 +77,8 @@ class CustomerController extends Controller
             // save customer data
             $customer = new Customer;
             $customer->company_name = $data['customer_name'];
+            $customer->company_addressline1 = $data['address_line1'];
+            $customer->company_addressline2 = $data['address_line2'];
             $customer->company_address = $data['address_state'].'|'.$data['address_post_code'];
             $customer->company_reg_no = $data['registration_number'];
             $customer->company_contact_no = $data['contact_number'];
@@ -120,9 +121,6 @@ class CustomerController extends Controller
     public function edit(Customer $customer)
     {
         try {
-            if(auth()->user()->user_type=='staff')
-                return back()->with('message','warning|You are not allowed for this action!!'); 
-
             $user_list = User::where('is_deleted',0)->get();
             return view('customer.edit', compact('customer', 'user_list'));
         } catch(\Exception $e) {
@@ -140,16 +138,17 @@ class CustomerController extends Controller
     public function update(Request $request, Customer $customer)
     {
         try {
-            if(auth()->user()->user_type=='staff')
-                return back()->with('message','warning|You are not allowed for this action!!'); 
-
             $data = $request->except('_token');
-            $this->validate($request, [
+            $validator = Validator::make($request->all(), [
                 'customer_name' => 'required',
+                'address_line1' => 'required',
                 'address_state' => 'required',
                 'address_post_code' => 'required',
                 'contact_number' => 'required'
             ]);
+            if ($validator->fails()) {
+                return redirect('customer/'.$id.'/edit')->withErrors($validator);
+            }
             // save image
             $image_name = $customer->image;
             if ($request->hasFile('image')) {
@@ -166,6 +165,8 @@ class CustomerController extends Controller
 
             // save customer data
             $customer->company_name = $data['customer_name'];
+            $customer->company_addressline1 = $data['address_line1'];
+            $customer->company_addressline2 = $data['address_line2'];
             $customer->company_address = $data['address_state'].'|'.$data['address_post_code'];
             $customer->company_reg_no = $data['registration_number'];
             $customer->company_contact_no = $data['contact_number'];
@@ -192,9 +193,6 @@ class CustomerController extends Controller
     public function destroy(Customer $customer)
     {
         try {
-            if(auth()->user()->user_type=='staff')
-                return back()->with('message','warning|You are not allowed for this action!!'); 
-
             $customer->is_deleted = 1;
             $customer->save();
             return redirect('customer')->with('message','success|Data Delete Successfully.');   

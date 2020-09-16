@@ -28,7 +28,7 @@
     <div class="row">
       <div class="col-8 mx-auto">
         <div class="card">
-            <div class="card-header"> Order<strong>#1</strong>
+            <div class="card-header"> Order<strong>#{{$order->id}}</strong>
                 <div style="float: right;"> <a class="btn btn-sm btn-info" href="{{route('order.printPage',$order->id)}}" target="_blank"><i class="fa fa-print mr-1"></i> Print</a>
                 </div>
             </div>
@@ -38,6 +38,8 @@
                         <h6 class="mb-3">Order Information:</h6>
                         <div><strong>Id:</strong> {{$order->id}}</div>
                         <div><strong>Date:</strong> {{$order->dt_created}}</div>
+                        <div><strong>Customer / Company:</strong> {{$order->orderCustomer['company_name']}}</div>
+                        <div><strong>Order Created By:</strong> {{$order->orderUser['name']}}</div>
                         <div><strong>Previous Print:</strong> {{$order->print_flag==0?'No':'Yes'}}</div>
                     </div>
                 </div>

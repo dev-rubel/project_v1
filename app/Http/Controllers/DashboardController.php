@@ -29,10 +29,10 @@ class DashboardController extends Controller
     public function index()
     {
         try {            
-            $all_customer   = Customer::count();
-            $all_user       = User::count();
+            $all_customer   = Customer::where('is_deleted',0)->count();
+            $all_user       = User::where('is_deleted',0)->count();
             $all_order      = Order::count();
-            $staff_user     = User::where('user_type','staff')->count();
+            $staff_user     = User::where(['user_type' => 'staff', 'is_deleted' => 0])->count();
             return view('dashboard', compact('all_customer','all_user','all_order','staff_user'));
         } catch(\Exception $e) {
             return $e->getMessage();

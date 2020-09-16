@@ -27,10 +27,12 @@
     <!-- Small boxes (Stat box) -->
   <div class="row">
     <div class="col-md-12">
-      @if($errors->has('title'))
-        <div class="alert alert-danger alert-dismissible text-center">
-          <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>{{ $errors->first('title') }}
-        </div>
+      @if(!$errors->isEmpty())
+        @foreach($errors->all() as $single_error)
+          <div class="alert alert-danger alert-dismissible text-left">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>{{ $single_error }}
+          </div>
+        @endforeach
       @endif 
       <div class="card card-primary">
       <!-- form start -->
@@ -44,7 +46,9 @@
             <div class="form-group">
               <label for="user_type">User Type <strong class="required">*</strong></label>
               <select name="user_type" id="user_type" class="form-control" required>
-                <option value="admin">Admin</option>
+                @if(auth()->user()->user_type!='staff')
+                  <option value="admin">Admin</option>
+                @endif
                 <option value="staff">Staff</option>
               </select>
             </div>
@@ -56,8 +60,7 @@
               <label for="image">Image</label>
               <div class="input-group">
                 <div class="custom-file">
-                  <input type="file" name="image" class="custom-file-input" id="image">
-                  <label class="custom-file-label" for="image">Choose image</label>
+                  <input type="file" name="image" class="form-control" id="image">
                 </div>
               </div>
             </div>

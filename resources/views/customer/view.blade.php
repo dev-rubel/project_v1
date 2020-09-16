@@ -7,7 +7,7 @@
   <div class="container-fluid">
     <div class="row mb-2">
       <div class="col-sm-6">
-        <h1 class="m-0 text-dark">Customer View ({{$customer->company_name}})</h1>
+        <h1 class="m-0 text-dark">{{$customer->company_name}}</h1>
       </div><!-- /.col -->
       <div class="col-sm-6">
         <ol class="breadcrumb float-sm-right">
@@ -58,9 +58,29 @@
               <div class="form-group">
                 @php
                   list($state, $post_code) = array_pad(explode('|', $customer->company_address), 2, '');
+                  $states = [
+                    'JHR' => 'Johor',
+                    'KDH' => 'Kedah',
+                    'KTN' => 'Kelantan',
+                    'MLK' => 'Melaka',
+                    'NSN' => 'Negeri Sembilan',
+                    'PHG' => 'Pahang',
+                    'PRK' => 'Perak',
+                    'PLS' => 'Perlis',
+                    'PNG' => 'Pulau Pinang',
+                    'SBH' => 'Sabah',
+                    'SWK' => 'Sarawak',
+                    'SGR' => 'Selangor',
+                    'TRG' => 'Terengganu',
+                    'KUL' => 'W.P. Kuala Lumpur',
+                    'LBN' => 'W.P. Labuan',
+                    'PJY' => 'W.P. Putrajaya',
+                  ];
                 @endphp
                 <label>Customer/Company Address</label>
-                <input type="text" name="address_state" class="form-control" value="{{$state}}" id="address_state" placeholder="State" readonly>
+                <input type="text" name="address_line1" class="form-control" value="{{$customer->company_addressline1}}" id="address_line1" placeholder="Address Line 1" readonly>
+                <input type="text" name="address_line2" class="form-control" value="{{$customer->company_addressline2}}" id="address_line2" placeholder="Address Line 2" readonly>
+                <input type="text" name="address_state" class="form-control" value="{{$states[$state]}}" id="address_state" placeholder="State" readonly>
                 <input type="text" name="address_post_code" class="form-control" value="{{$post_code}}" id="address_post_code" placeholder="Post Code" readonly>
               </div>
               <div class="form-group">
@@ -69,7 +89,7 @@
               </div>
               <div class="form-group">
                 <label for="contact_number">Customer/Company Email</label>
-                <input type="text" name="contact_number" class="form-control" value="{{$customer->company_email}}" id="contact_number" placeholder="Contact Number" readonly>
+                <input type="email" name="contact_number" class="form-control" value="{{$customer->company_email}}" id="contact_number" placeholder="Email" readonly>
               </div>
               <div class="form-group">
                 <label for="assigned_to">Assigned to</label>

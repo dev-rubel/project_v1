@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
 {
@@ -37,9 +38,6 @@ class UserController extends Controller
     public function create()
     {
         try {
-            if(auth()->user()->user_type=='staff')
-                return back()->with('message','warning|You are not allowed for this action!!'); 
-
             return view('user.create');
         } catch(\Exception $e) {
             return $e->getMessage();
@@ -55,20 +53,41 @@ class UserController extends Controller
     public function store(Request $request)
     {
         try {
-            if(auth()->user()->user_type=='staff')
+            $data = $request->except('_token');
+            if(auth()->user()->user_type=='staff' && $data['user_type']=='admin')
                 return back()->with('message','warning|You are not allowed for this action!!'); 
 
-            $data = $request->except('_token');
-            $this->validate($request, [
+            $validator = Validator::make($request->all(), [
                 'name' => 'required',
                 'user_type' => 'required',
-                'email' => 'required|email|unique:user',
+                'email' => 'required|email',
                 'contact_number' => 'required',
+                'password' => 'nullable|min:6',
                 'image' => 'image|mimes:jpg,jpeg,png,gif|max:2048',
             ]);
+            if ($validator->fails()) {
+                return redirect('user/create')->withErrors($validator);
+            }
+
+            // if previous data exist then replace
+            if(User::where('email', '=', $data['email'])->count() > 0) {
+            	$user = User::where('email', '=', $data['email'])->first();
+	            $image_name = $user->image;
+            } else {
+	            $user = new User;
+	            $image_name = '';
+            }
+
             // save image
-            $image_name = '';
             if ($request->hasFile('image')) {
+            	if(!empty($image_name)) {
+	            	// remove previous
+	                $file_path = public_path('/images/user/'.$user->image);
+	                if(is_file($file_path)){
+	                    unlink($file_path);
+	                }            		
+            	}
+
                 $image = $request->file('image');
                 $image_name = time().'.'.$image->getClientOriginalExtension();
                 $destinationPath = public_path('/images/user');
@@ -79,7 +98,6 @@ class UserController extends Controller
                 $data['password'] = 'abc123';
             }
             // save user data
-            $user = new User;
             $user->username = $data['email'];
             $user->password = Hash::make($data['password']);
             $user->name = $data['name'];
@@ -123,10 +141,10 @@ class UserController extends Controller
     public function edit($id)
     {
         try {
-            if(auth()->user()->user_type=='staff')
+            $user = User::find($id);
+            if(auth()->user()->user_type=='staff' && $user->user_type == 'admin')
                 return back()->with('message','warning|You are not allowed for this action!!'); 
 
-            $user = User::where('id',$id)->first();
             return view('user.edit',compact('user'));
         } catch(\Exception $e) {
             return $e->getMessage();
@@ -143,16 +161,20 @@ class UserController extends Controller
     public function update(Request $request, $id)
     {
         try {
-            if(auth()->user()->user_type=='staff')
+            $data = $request->except('_token');
+            if(auth()->user()->user_type=='staff' && $data['user_type']=='admin')
                 return back()->with('message','warning|You are not allowed for this action!!'); 
 
-            $data = $request->except('_token');
-            $this->validate($request, [
+            $validator = Validator::make($request->all(), [
                 'name' => 'required',
                 'user_type' => 'required',
                 'contact_number' => 'required',
+                'password' => 'nullable|min:6',
                 'image' => 'image|mimes:jpg,jpeg,png,gif|max:2048',
             ]);
+            if ($validator->fails()) {
+                return redirect('user/'.$id.'/edit')->withErrors($validator);
+            }
 
             $user = User::find($id);
             // save image
@@ -197,10 +219,11 @@ class UserController extends Controller
     public function destroy($id)
     {
         try {
-            if(auth()->user()->user_type=='staff')
+            $user = User::find($id);
+            if(auth()->user()->user_type=='staff' && $user->user_type == 'admin')
                 return back()->with('message','warning|You are not allowed for this action!!'); 
-
-            User::where('id',$id)->update(['is_deleted'=>1]);
+            $user->is_deleted = 1;
+            $user->save();
             return redirect('user')->with('message','success|Data Delete Successfully.');
         } catch(\Exception $e) {
             return $e->getMessage();

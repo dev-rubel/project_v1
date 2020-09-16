@@ -49,14 +49,40 @@
                 <label for="image">Image</label>
                 <div class="input-group">
                   <div class="custom-file">
-                    <input type="file" name="image" class="custom-file-input" id="image">
-                    <label class="custom-file-label" for="image">Choose image</label>
+                    <input type="file" name="image" class="form-control" id="image">
                   </div>
                 </div>
               </div>
               <div class="form-group">
+                @php
+                  $states = [
+                    'JHR' => 'Johor',
+                    'KDH' => 'Kedah',
+                    'KTN' => 'Kelantan',
+                    'MLK' => 'Melaka',
+                    'NSN' => 'Negeri Sembilan',
+                    'PHG' => 'Pahang',
+                    'PRK' => 'Perak',
+                    'PLS' => 'Perlis',
+                    'PNG' => 'Pulau Pinang',
+                    'SBH' => 'Sabah',
+                    'SWK' => 'Sarawak',
+                    'SGR' => 'Selangor',
+                    'TRG' => 'Terengganu',
+                    'KUL' => 'W.P. Kuala Lumpur',
+                    'LBN' => 'W.P. Labuan',
+                    'PJY' => 'W.P. Putrajaya',
+                  ];
+                @endphp
                 <label>Customer/Company Address <strong class="required">*</strong></label>
-                <input type="text" name="address_state" class="form-control" id="address_state" placeholder="State" required>
+                <input type="text" name="address_line1" class="form-control" id="address_line1" placeholder="Address Line 1" required>
+                <input type="text" name="address_line2" class="form-control" id="address_line2" placeholder="Address Line 2">
+                <select name="address_state" id="address_state" class="form-control" required>
+                  <option value="">Please Select State</option>
+                  @foreach($states as $k=>$state)
+                    <option value="{{$k}}">{{$state}}</option>
+                  @endforeach
+                </select>
                 <input type="text" name="address_post_code" class="form-control" id="address_post_code" placeholder="Post Code" required>
               </div>
               <div class="form-group">
@@ -65,7 +91,7 @@
               </div>
               <div class="form-group">
                 <label for="email">Customer/Company Email</label>
-                <input type="email" name="email" class="form-control" id="email" placeholder="Contact Number">
+                <input type="email" name="email" class="form-control" id="email" placeholder="Email">
               </div>
               <div class="form-group">
                 <label for="assigned_to">Assigned to</label>
@@ -90,56 +116,4 @@
   </div><!-- /.container-fluid -->
 </section>
 <!-- /.content -->
-
-@push('script')
-  <!-- jquery-validation -->
-  <script src="{{asset('plugins/jquery-validation/jquery.validate.min.js')}}"></script>
-  <script src="{{asset('plugins/jquery-validation/additional-methods.min.js')}}"></script>
-  <script type="text/javascript">
-    $(document).ready(function () {
-      $.validator.setDefaults({
-        submitHandler: function () {
-          alert( "Form successful submitted!" );
-        }
-      });
-      $('#quickForm').validate({
-        rules: {
-          email: {
-            required: true,
-            email: true,
-          },
-          password: {
-            required: true,
-            minlength: 5
-          },
-          terms: {
-            required: true
-          },
-        },
-        messages: {
-          email: {
-            required: "Please enter a email address",
-            email: "Please enter a vaild email address"
-          },
-          password: {
-            required: "Please provide a password",
-            minlength: "Your password must be at least 5 characters long"
-          },
-          terms: "Please accept our terms"
-        },
-        errorElement: 'span',
-        errorPlacement: function (error, element) {
-          error.addClass('invalid-feedback');
-          element.closest('.form-group').append(error);
-        },
-        highlight: function (element, errorClass, validClass) {
-          $(element).addClass('is-invalid');
-        },
-        unhighlight: function (element, errorClass, validClass) {
-          $(element).removeClass('is-invalid');
-        }
-      });
-    });
-  </script>
-@endpush
 @endsection

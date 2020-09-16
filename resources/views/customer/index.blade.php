@@ -57,7 +57,7 @@
                   <td>{{$customer->company_name}}</td>
                   <td>{{$customer->company_reg_no}}</td>
                   <td>{{count($customer->order)}}</td>
-                  <td>{{$customer->dt_created}}</td>
+                  <td>{{date('Y-m-d', strtotime($customer->dt_created))}}</td>
                   <td>
                     <a href="{{route('customer.show',$customer->id)}}" class="btn btn-sm btn-primary"><i class="fa fa-eye"></i></a>
                     <a href="{{route('customer.edit',$customer->id)}}" class="btn btn-sm btn-info"><i class="fa fa-pen"></i></a>
@@ -89,7 +89,7 @@
   // delete user
   $('.destroy').on('click', function() {
     var customerid = $(this).data('id');
-    var r = confirm("Are You Sure!");
+    var r = confirm("Are you sure to delete this customer?");
     if (r == true) {
       document.getElementById('destroy-form-'+customerid).submit();
     }
